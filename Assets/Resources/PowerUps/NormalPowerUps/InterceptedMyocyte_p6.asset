@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a229bb2fd78dfe449adf319518ce94dd, type: 3}
+  m_Name: InterceptedMyocyte_p6
+  m_EditorClassIdentifier: 
+  id: 6
+  displayName: Intercepted Myocyte
+  description: Adds +1 strength.
+  icon: {fileID: 21300000, guid: d0f866ae88977c045a89abb69e6f2a00, type: 3}
+  basePrice: 15
+  isVoidBound: 0
+  isSpecialPowerUp: 0
+  specialStatName: 
+  statModifiers:
+  - statToModify: 5
+    value: 1
+    useRawValue: 0
