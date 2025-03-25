@@ -6,11 +6,11 @@ using UnityEngine.Tilemaps;
 public class CheckDoorsThatLeadToNothing : MonoBehaviour
 {
     public GameObject Wall;
+    private BoxCollider2D Trigger;
     private TilemapRenderer Renderer;
     private bool wallDetected = false;
     private RoomTemplates roomTemplates;
-
-    private void Start()
+    private void Awake()
     {
         Renderer = GetComponent<TilemapRenderer>();
         if (Renderer != null)
@@ -20,6 +20,8 @@ public class CheckDoorsThatLeadToNothing : MonoBehaviour
 
         if (Wall != null)
             Wall.SetActive(true);
+
+        Trigger = GetComponent<BoxCollider2D>();
 
         StartCoroutine(CheckBossSpawned());
     }
@@ -39,14 +41,12 @@ public class CheckDoorsThatLeadToNothing : MonoBehaviour
 
         yield return new WaitForSeconds(0.6f);
 
-        // Perform a final check for walls if not already detected
         if (!wallDetected)
         {
-            // Cast rays or use OverlapBox to check for walls
+            Trigger.enabled = false;
             wallDetected = CheckForWallsNearby();
         }
 
-        // Apply the final decision
         if (!wallDetected)
         {
             if (Wall != null)
@@ -104,10 +104,10 @@ public class CheckDoorsThatLeadToNothing : MonoBehaviour
                 return true;
 
             RaycastHit2D hitDown = Physics2D.Raycast(transform.position, Vector2.down, 0.5f);
-            if (hitDown.collider != null && (hitDown.collider.CompareTag("Wall") || hitDown.collider.CompareTag("BreakableWall")))
+            if (hitDown.collider != null && (hitDown.collider.CompareTag("Wall") || hitDown.collider.CompareTag("BreakableWall") ))
                 return true;
         }
-
+        Trigger.enabled = true;
         return false;
     }
 

@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -147,6 +148,12 @@ public class PlayerState : MonoBehaviour
         Rolling = true;
         CanDash = false;
         lastDashTime = Time.time;
+
+        DynamicCamera camera = FindObjectOfType<DynamicCamera>();
+        if (camera != null)
+        {
+            camera.ApplyShake(camera.dashShakeIntensity);
+        }
 
         if (isPerfectDodge && !perfectDodgeEffectSpawned)
         {
@@ -424,6 +431,8 @@ public class PlayerState : MonoBehaviour
 
     }
 
+    public float speedMultiplier;
+
     void UpdateRun()
     {
         if (InputPressed)
@@ -467,11 +476,13 @@ public class PlayerState : MonoBehaviour
             }
         }
 
+        
+
         WeaponTypes WT = FindObjectOfType<WeaponTypes>();
         if (!Rolling)
         {
             if (Time.timeScale <= 0) { return; }
-            float moveSpeed = 50 * Stats.Speed * WT.PlayerSpeedMultiplier * Time.fixedDeltaTime;
+            float moveSpeed = 50 * Stats.Speed * WT.PlayerSpeedMultiplier * speedMultiplier * Time.fixedDeltaTime;
             rb.velocity = new Vector2(xInput * moveSpeed, yInput * moveSpeed);
 
             Particles[0].SetActive(true);

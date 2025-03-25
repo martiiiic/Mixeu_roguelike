@@ -47,17 +47,16 @@ public class ExitHand : MonoBehaviour
     public void DestroyThis()
     {
         Time.timeScale = 1;
-
         SpriteRenderer playerSprite = playerState.GetComponent<SpriteRenderer>();
         if (playerSprite != null) playerSprite.enabled = true;
-
         if (playerState != null && !playerState.gameObject.activeSelf)
         {
             playerState.gameObject.SetActive(true);
         }
 
         Destroy(P);
-        roomTemplates.DeleteAllRooms(false);
+
+        roomTemplates.DeleteAllRooms(false, false);
         Destroy(gameObject);
     }
 

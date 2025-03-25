@@ -1,130 +1,198 @@
-using UnityEngine;
-using UnityEditor;
-using System.Collections.Generic;
-
 #if UNITY_EDITOR
+using static UnityEngine.GraphicsBuffer;
+using UnityEditor;
+using UnityEngine;
+
 [CustomEditor(typeof(RoomTemplates))]
 public class RoomTemplatesEditor : Editor
 {
-    private bool showRoomArrays = true;
-    private bool showLargeRoomSettings = false;
-    private bool showManagerReferences = false;
+    private SerializedProperty largeRoomsProperty;
+    private SerializedProperty largeRoomSpawnChanceProperty;
+    private SerializedProperty maxLargeRoomsPerDungeonProperty;
+    private SerializedProperty bottomRoomsProperty;
+    private SerializedProperty topRoomsProperty;
+    private SerializedProperty leftRoomsProperty;
+    private SerializedProperty rightRoomsProperty;
+    private SerializedProperty closedRoomsProperty;
+    private SerializedProperty entryRoomProperty;
+    private SerializedProperty bossProperty;
+    private SerializedProperty chestRoomProperty;
+    private SerializedProperty storeProperty;
+    private SerializedProperty casinoProperty;
+    private SerializedProperty cauldronProperty;
+    private SerializedProperty specialRoomsProperty;
+    private SerializedProperty minimumRoomsToGenerateProperty;
+    private SerializedProperty enemySpawnManagerProperty;
+
+    // Add the missing properties
+    private SerializedProperty handProperty;
+    private SerializedProperty objectMenuProperty;
+    private SerializedProperty prefabDungeonsProperty;
+
+    private bool showLargeRoomSettings = true;
+    private bool showRoomSettings = true;
+    private bool showSpecialRoomSettings = true;
+    private bool showEnemySettings = true;
+    private bool showGameObjectReferences = true;  // New section for references
+
+    private Editor enemySpawnManagerEditor;
+
+    private void OnEnable()
+    {
+        largeRoomsProperty = serializedObject.FindProperty("largeRooms");
+        largeRoomSpawnChanceProperty = serializedObject.FindProperty("largeRoomSpawnChance");
+        maxLargeRoomsPerDungeonProperty = serializedObject.FindProperty("maxLargeRoomsPerDungeon");
+        bottomRoomsProperty = serializedObject.FindProperty("bottomRooms");
+        topRoomsProperty = serializedObject.FindProperty("topRooms");
+        leftRoomsProperty = serializedObject.FindProperty("leftRooms");
+        rightRoomsProperty = serializedObject.FindProperty("rightRooms");
+        closedRoomsProperty = serializedObject.FindProperty("closedRooms");
+        entryRoomProperty = serializedObject.FindProperty("EntryRoom");
+        bossProperty = serializedObject.FindProperty("boss");
+        chestRoomProperty = serializedObject.FindProperty("chestRoom");
+        storeProperty = serializedObject.FindProperty("store");
+        casinoProperty = serializedObject.FindProperty("Casino");
+        cauldronProperty = serializedObject.FindProperty("Cauldron");
+        specialRoomsProperty = serializedObject.FindProperty("specialRooms");
+        minimumRoomsToGenerateProperty = serializedObject.FindProperty("minimumRoomsToGenerate");
+        enemySpawnManagerProperty = serializedObject.FindProperty("enemySpawnManager");
+
+        // Initialize the new properties
+        handProperty = serializedObject.FindProperty("Hand");
+        //wcProperty = serializedObject.FindProperty("WC");
+        objectMenuProperty = serializedObject.FindProperty("ObjectMenu");
+        prefabDungeonsProperty = serializedObject.FindProperty("PrefabDungeons");
+
+        RoomTemplates roomTemplates = (RoomTemplates)target;
+        if (roomTemplates.enemySpawnManager != null)
+        {
+            enemySpawnManagerEditor = CreateEditor(roomTemplates.enemySpawnManager);
+        }
+    }
 
     public override void OnInspectorGUI()
     {
-        RoomTemplates roomTemplates = (RoomTemplates)target;
         serializedObject.Update();
+        RoomTemplates roomTemplates = (RoomTemplates)target;
 
-        // Room Generation Header
         EditorGUILayout.Space();
-        EditorGUILayout.LabelField("Room Generation Settings", EditorStyles.boldLabel);
 
-        // Standard settings
-        EditorGUILayout.PropertyField(serializedObject.FindProperty("minimumRoomsToGenerate"));
-        EditorGUILayout.PropertyField(serializedObject.FindProperty("EntryRoom"));
-
-        // Room Arrays Section
-        EditorGUILayout.Space();
-        showRoomArrays = EditorGUILayout.Foldout(showRoomArrays, "Room Templates", true, EditorStyles.foldoutHeader);
-        if (showRoomArrays)
+        // Room Generation Settings
+        showRoomSettings = EditorGUILayout.Foldout(showRoomSettings, "Room Generation Settings", true, EditorStyles.foldoutHeader);
+        if (showRoomSettings)
         {
             EditorGUI.indentLevel++;
-            EditorGUILayout.PropertyField(serializedObject.FindProperty("bottomRooms"), true);
-            EditorGUILayout.PropertyField(serializedObject.FindProperty("topRooms"), true);
-            EditorGUILayout.PropertyField(serializedObject.FindProperty("leftRooms"), true);
-            EditorGUILayout.PropertyField(serializedObject.FindProperty("rightRooms"), true);
-            EditorGUILayout.PropertyField(serializedObject.FindProperty("closedRooms"), true);
-            EditorGUILayout.PropertyField(serializedObject.FindProperty("corridorRooms"), true);
+            EditorGUILayout.PropertyField(minimumRoomsToGenerateProperty);
+            EditorGUILayout.PropertyField(entryRoomProperty);
+            EditorGUILayout.PropertyField(bottomRoomsProperty, true);
+            EditorGUILayout.PropertyField(topRoomsProperty, true);
+            EditorGUILayout.PropertyField(leftRoomsProperty, true);
+            EditorGUILayout.PropertyField(rightRoomsProperty, true);
+            EditorGUILayout.PropertyField(closedRoomsProperty, true);
             EditorGUI.indentLevel--;
         }
 
-        // Large Room Settings
         EditorGUILayout.Space();
+
+        // Special Rooms Settings
+        showSpecialRoomSettings = EditorGUILayout.Foldout(showSpecialRoomSettings, "Special Rooms Settings", true, EditorStyles.foldoutHeader);
+        if (showSpecialRoomSettings)
+        {
+            EditorGUI.indentLevel++;
+            EditorGUILayout.PropertyField(bossProperty);
+            EditorGUILayout.PropertyField(chestRoomProperty);
+            EditorGUILayout.PropertyField(storeProperty);
+            EditorGUILayout.PropertyField(casinoProperty);
+            EditorGUILayout.PropertyField(cauldronProperty);
+            EditorGUILayout.PropertyField(specialRoomsProperty, true);
+
+            // Add New Special Room button
+            if (GUILayout.Button("Add New Special Room"))
+            {
+                Undo.RecordObject(roomTemplates, "Add Special Room");
+                SpecialRoom newRoom = new SpecialRoom();
+                roomTemplates.specialRooms.Add(newRoom);
+                EditorUtility.SetDirty(roomTemplates);
+            }
+
+            EditorGUI.indentLevel--;
+        }
+
+        EditorGUILayout.Space();
+
+        // Large Room Settings
         showLargeRoomSettings = EditorGUILayout.Foldout(showLargeRoomSettings, "Large Room Settings", true, EditorStyles.foldoutHeader);
         if (showLargeRoomSettings)
         {
             EditorGUI.indentLevel++;
-            EditorGUILayout.PropertyField(serializedObject.FindProperty("largeRooms"), true);
-            EditorGUILayout.PropertyField(serializedObject.FindProperty("largeRoomSpawnChance"));
-            EditorGUILayout.PropertyField(serializedObject.FindProperty("maxLargeRoomsPerDungeon"));
+            EditorGUILayout.PropertyField(largeRoomsProperty, true);
+            EditorGUILayout.PropertyField(largeRoomSpawnChanceProperty);
+            EditorGUILayout.PropertyField(maxLargeRoomsPerDungeonProperty);
             EditorGUI.indentLevel--;
         }
 
-        // Manager References
         EditorGUILayout.Space();
-        showManagerReferences = EditorGUILayout.Foldout(showManagerReferences, "Manager References", true, EditorStyles.foldoutHeader);
-        if (showManagerReferences)
+
+        // New section for GameObject references
+        showGameObjectReferences = EditorGUILayout.Foldout(showGameObjectReferences, "GameObject References", true, EditorStyles.foldoutHeader);
+        if (showGameObjectReferences)
         {
             EditorGUI.indentLevel++;
-            EditorGUILayout.PropertyField(serializedObject.FindProperty("enemySpawnManager"));
-            EditorGUILayout.PropertyField(serializedObject.FindProperty("specialRoomManager"));
-            EditorGUILayout.PropertyField(serializedObject.FindProperty("dungeonStateManager"));
-            EditorGUILayout.PropertyField(serializedObject.FindProperty("player"));
+
+            // Draw the Hand property with a helpful label
+            EditorGUILayout.PropertyField(handProperty, new GUIContent("Hand", "Reference to the hand animation GameObject"));
+
+            // Draw other GameObject references
+            //EditorGUILayout.PropertyField(wcProperty, new GUIContent("Weapon Collectible", "Reference to the weapon collectible prefab"));
+            EditorGUILayout.PropertyField(objectMenuProperty, new GUIContent("Object Menu", "Reference to the object stats menu"));
+            EditorGUILayout.PropertyField(prefabDungeonsProperty, new GUIContent("Prefab Dungeons", "Array of prefab dungeons"));
+
             EditorGUI.indentLevel--;
         }
 
-        // Runtime Status (Read Only)
         EditorGUILayout.Space();
-        EditorGUILayout.LabelField("Runtime Status", EditorStyles.boldLabel);
-        EditorGUI.BeginDisabledGroup(true);
-        EditorGUILayout.Toggle("Spawned Boss", roomTemplates.spawnedBoss);
-        if (roomTemplates.dungeonStateManager != null)
+
+        // Enemy Settings
+        showEnemySettings = EditorGUILayout.Foldout(showEnemySettings, "Enemy Settings", true, EditorStyles.foldoutHeader);
+        if (showEnemySettings)
         {
-            EditorGUILayout.Toggle("Enemy Rooms Complete", roomTemplates.enemyRoomsComplete);
-            EditorGUILayout.IntField("Large Rooms Spawned", roomTemplates.dungeonStateManager.largeRoomsSpawned);
-            EditorGUILayout.Toggle("Is Setting Up", roomTemplates.dungeonStateManager.isSettingUp);
-            EditorGUILayout.Toggle("Is Prefab Dungeon", roomTemplates.dungeonStateManager.isPrefabDungeon);
-            EditorGUILayout.FloatField("Wait Time", roomTemplates.dungeonStateManager.waitTime);
-        }
-        EditorGUILayout.IntField("Room Count", roomTemplates.rooms.Count);
-        EditorGUI.EndDisabledGroup();
+            EditorGUI.indentLevel++;
 
-        // Display special room status if available
-        if (roomTemplates.specialRoomManager != null)
-        {
-            EditorGUILayout.Space();
-            EditorGUILayout.LabelField("Special Room Status", EditorStyles.boldLabel);
+            EditorGUILayout.PropertyField(enemySpawnManagerProperty);
 
-            EditorGUI.BeginDisabledGroup(true);
-            EditorGUILayout.Toggle("Boss Room Spawned", roomTemplates.specialRoomManager.spawnedBoss);
-            EditorGUILayout.Toggle("Store Room Spawned", roomTemplates.specialRoomManager.spawnedStore);
-            EditorGUILayout.Toggle("Casino Room Spawned", roomTemplates.specialRoomManager.spawnedCasino);
-            EditorGUILayout.Toggle("Chest Rooms Spawned", roomTemplates.specialRoomManager.spawnedChestRooms);
-            EditorGUILayout.Toggle("Cauldron Room Spawned", roomTemplates.specialRoomManager.spawnedCauldron);
-
-            // Display custom special rooms if any
-            if (roomTemplates.specialRoomManager.specialRooms.Count > 0)
+            if (roomTemplates.enemySpawnManager == null)
             {
-                EditorGUILayout.Space();
-                EditorGUILayout.LabelField("Custom Special Rooms", EditorStyles.boldLabel);
-
-                foreach (SpecialRoom specialRoom in roomTemplates.specialRoomManager.specialRooms)
+                EditorGUILayout.HelpBox("Assign an Enemy Spawn Manager to configure enemy spawning.", MessageType.Info);
+                if (GUILayout.Button("Create Enemy Spawn Manager"))
                 {
-                    EditorGUILayout.BeginHorizontal();
-                    EditorGUILayout.LabelField(specialRoom.roomName);
-                    EditorGUILayout.Toggle("Spawned", specialRoom.hasSpawned);
-                    EditorGUILayout.EndHorizontal();
+                    roomTemplates.enemySpawnManager = roomTemplates.gameObject.AddComponent<EnemySpawnManager>();
+                    enemySpawnManagerEditor = CreateEditor(roomTemplates.enemySpawnManager);
+                    EditorUtility.SetDirty(roomTemplates);
                 }
             }
-            EditorGUI.EndDisabledGroup();
-        }
+            else if (enemySpawnManagerEditor != null)
+            {
+                // Draw a line to separate the embedded editor
+                EditorGUILayout.Space();
+                EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
+                EditorGUILayout.LabelField("Enemy Spawn Configuration", EditorStyles.boldLabel);
 
-        // Enemy spawn information if available
-        if (roomTemplates.enemySpawnManager != null && EditorApplication.isPlaying)
-        {
-            EditorGUILayout.Space();
-            EditorGUILayout.LabelField("Enemy Configuration", EditorStyles.boldLabel);
-            EditorGUI.BeginDisabledGroup(true);
+                // Use the editor to draw its inspector
+                enemySpawnManagerEditor.OnInspectorGUI();
+            }
 
-            // We can't display the enemy configs directly since they're likely private
-            // But we can show a summary
-            EditorGUILayout.LabelField("Enemy Configurations Available",
-                $"{roomTemplates.enemySpawnManager.GetType().Name} is attached");
-
-            EditorGUI.EndDisabledGroup();
+            EditorGUI.indentLevel--;
         }
 
         serializedObject.ApplyModifiedProperties();
+    }
+
+    private void OnDisable()
+    {
+        if (enemySpawnManagerEditor != null)
+        {
+            DestroyImmediate(enemySpawnManagerEditor);
+        }
     }
 }
 #endif

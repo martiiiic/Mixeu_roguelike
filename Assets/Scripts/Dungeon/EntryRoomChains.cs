@@ -22,11 +22,12 @@ public class EntryRoomChains : MonoBehaviour
 
     private void Update()
     {
-        if (rooms.spawnedBoss && Chains != null)
+        if (rooms.spawnedBoss && initialized)
         {
             Audio.Play();
-            Destroy(Chains);
-            this.enabled = false;
+            initialized = false;
+            Chains.SetActive (false);
+            Destroy(Chains, 0.3f);
         }
     }
 }

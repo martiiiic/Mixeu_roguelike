@@ -106,6 +106,7 @@ public class RangedEnemy : Enemy
         if (IsWallBetweenEnemyAndPlayer()) { target = null; return; }
         if (projectilePrefab == null || target == null) return;
 
+      
         Rigidbody2D playerRb = target.GetComponent<Rigidbody2D>();
         if (playerRb == null) return;
 
@@ -113,7 +114,13 @@ public class RangedEnemy : Enemy
         Vector2 playerVelocity = playerRb.velocity;
 
         Vector2 enemyPosition = transform.position;
-        float bulletSpeed = 10f;
+
+        
+        GameObject projectile = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
+        Rigidbody2D projectileRb = projectile.GetComponent<Rigidbody2D>();
+
+        ProjectileDamage Projectile = projectile.GetComponent<ProjectileDamage>();
+        float bulletSpeed = Projectile.baseSpeed;
 
         Vector2 predictedPosition = CalculateInterceptPosition(playerPosition, playerVelocity, enemyPosition, bulletSpeed);
 
@@ -122,8 +129,6 @@ public class RangedEnemy : Enemy
         predictedPosition += new Vector2(offsetX, offsetY);
 
         Vector2 direction = (predictedPosition - enemyPosition).normalized;
-        GameObject projectile = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
-        Rigidbody2D projectileRb = projectile.GetComponent<Rigidbody2D>();
 
         if (projectileRb != null)
         {

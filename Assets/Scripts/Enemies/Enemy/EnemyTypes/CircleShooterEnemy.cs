@@ -45,7 +45,9 @@ public class CircleShooterEnemy : RangedEnemy
 
                 if (projectileRb != null)
                 {
-                    projectileRb.velocity = direction * 10f;
+                    ProjectileDamage Projectile = projectile.GetComponent<ProjectileDamage>();
+                    float BaseSpeed = Projectile.baseSpeed;
+                    projectileRb.velocity = direction * BaseSpeed;
                     LaserSoundSource.Play();
                 }
             }

@@ -1,9 +1,11 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class WeaponScript : MonoBehaviour
 {
+    public AudioMixerGroup Master;
     public Transform pivot;
     public float radius = 1f;
     public GameObject weapon;
@@ -45,6 +47,7 @@ public class WeaponScript : MonoBehaviour
         weaponAnimator = GetComponent<Animator>();
 
         Swing.volume = 0.3f;
+        Swing.outputAudioMixerGroup = Master;
 
         WT = weapon.GetComponent<WeaponTypes>();
     }
@@ -193,6 +196,7 @@ public class WeaponScript : MonoBehaviour
     {
         if (WT.RangedWeapon) { return; }
 
+        Player.speedMultiplier = 0.6f;
         Swing.clip = SwingSFX[UnityEngine.Random.Range(0, SwingSFX.Length)];
         Swing.Play();
         isSwinging = true;
@@ -218,6 +222,7 @@ public class WeaponScript : MonoBehaviour
     System.Collections.IEnumerator EndSwing()
     {
         yield return new WaitForSeconds(swingCooldown / (WT.RangedWeapon ? Stats.RangedSpeed : Stats.AttackSpeed));
+        Player.speedMultiplier = 1f;
         isSwinging = false;
     }
 }

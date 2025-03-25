@@ -55,7 +55,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -228,7 +228,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -401,7 +401,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -757,7 +757,7 @@ TilemapRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -990,10 +990,16 @@ MonoBehaviour:
   Room: {fileID: 4032880785290710325}
   RoomSprite: {fileID: 159880146909357887}
   roomPriority: 0
+  isLargeRoom: 0
+  roomZoomLevel: 5
+  useCustomZoom: 0
+  customZoomLevel: 5
   RoomXfollow: 0
   RoomYfollow: 0
   cameraTransitionSpeed: 15
   transitionduration: 0.1
+  useCustomTriggerOffset: 0
+  triggerOffset: {x: 0, y: 0}
 --- !u!61 &8369714350431638548
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1092,7 +1098,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1282,7 +1288,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 24300002, guid: f22a4922265afe046b373201a669528a, type: 2}
   m_audioClip: {fileID: 8300000, guid: 3bbd150bc69aef341b7352eb82d29663, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.602
+  m_Volume: 0.55
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -1419,7 +1425,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1854,7 +1860,7 @@ TilemapRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1987,28 +1993,52 @@ CompositeCollider2D:
     m_ColliderPaths:
     - - X: 50000000
         Y: 50000000
-      - X: 10000000
+      - X: 40000000
         Y: 50000000
+      - X: 40000000
+        Y: 48125000
       - X: 10000000
-        Y: 40000000
+        Y: 48125000
+      - X: 10000000
+        Y: 41250000
       - X: 40000000
-        Y: 40000000
+        Y: 41250000
       - X: 40000000
-        Y: 10000000
+        Y: 20000000
       - X: 50000000
-        Y: 10000000
+        Y: 20000000
     - - X: -40000000
-        Y: 40000000
+        Y: 41250000
       - X: -10000000
-        Y: 40000000
+        Y: 41250000
       - X: -10000000
-        Y: 50000000
-      - X: -50000000
-        Y: 50000000
-      - X: -50000000
-        Y: 10000000
+        Y: 48125000
       - X: -40000000
-        Y: 10000000
+        Y: 48125000
+      - X: -40000000
+        Y: 50000000
+      - X: -50000000
+        Y: 50000000
+      - X: -50000000
+        Y: 20000000
+      - X: -40000000
+        Y: 20000000
+    - - X: 50000000
+        Y: 18125000
+      - X: 40000000
+        Y: 18125000
+      - X: 40000000
+        Y: 11250000
+      - X: 50000000
+        Y: 11250000
+    - - X: -40000000
+        Y: 18125000
+      - X: -50000000
+        Y: 18125000
+      - X: -50000000
+        Y: 11250000
+      - X: -40000000
+        Y: 11250000
     - - X: -40000000
         Y: -20000000
       - X: -50000000
@@ -2027,18 +2057,30 @@ CompositeCollider2D:
         Y: -50000000
   m_CompositePaths:
     m_Paths:
-    - - {x: 4.999971, y: 1}
+    - - {x: 4.999971, y: 2}
       - {x: 4.999971, y: 5}
-      - {x: 1, y: 4.999971}
-      - {x: 1.0000293, y: 4}
-      - {x: 4, y: 3.9999704}
-      - {x: 4.000029, y: 1}
-    - - {x: -4.000029, y: 1}
-      - {x: -3.9999704, y: 4}
-      - {x: -1, y: 4.000029}
-      - {x: -1.0000293, y: 5}
+      - {x: 4, y: 4.999971}
+      - {x: 3.9999704, y: 4.8125}
+      - {x: 1, y: 4.812471}
+      - {x: 1.0000293, y: 4.125}
+      - {x: 4, y: 4.1249704}
+      - {x: 4.000029, y: 2}
+    - - {x: -4.000029, y: 2}
+      - {x: -3.9999704, y: 4.125}
+      - {x: -1, y: 4.125029}
+      - {x: -1.0000293, y: 4.8125}
+      - {x: -4, y: 4.8125296}
+      - {x: -4.000029, y: 5}
       - {x: -5, y: 4.999971}
-      - {x: -4.999971, y: 1}
+      - {x: -4.999971, y: 2}
+    - - {x: 4.999971, y: 1.125}
+      - {x: 4.999971, y: 1.8125}
+      - {x: 4, y: 1.8124708}
+      - {x: 4.000029, y: 1.125}
+    - - {x: -4.000029, y: 1.125}
+      - {x: -4.000029, y: 1.8125}
+      - {x: -5, y: 1.8124708}
+      - {x: -4.999971, y: 1.125}
     - - {x: 4.999971, y: -5}
       - {x: 4.999971, y: -2}
       - {x: 4, y: -2.0000293}
@@ -2482,7 +2524,7 @@ TilemapRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2601,7 +2643,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2772,7 +2814,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2902,7 +2944,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3047,7 +3089,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

@@ -153,7 +153,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 8, y: 8}
+  m_Size: {x: 9.6, y: 9.6}
   m_EdgeRadius: 0
 --- !u!114 &931764966559286265
 MonoBehaviour:
@@ -168,7 +168,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemy: {fileID: 0}
-  detectionSize: {x: 5, y: 5}
+  detectionSize: {x: 9.6, y: 9.6}
 --- !u!1 &6969704131926646446
 GameObject:
   m_ObjectHideFlags: 0
@@ -227,7 +227,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -378,8 +378,8 @@ MonoBehaviour:
   target: {fileID: 0}
   Dead: 0
   Coins: {fileID: 0}
-  projectilePrefab: {fileID: 6594195936927640384, guid: 43b77a0261d738147b3c18cb020f197b, type: 3}
-  shootingCooldown: 4
+  projectilePrefab: {fileID: 2531442820715900645, guid: 95c869f6f3bedd44da4ae53f20bb4094, type: 3}
+  shootingCooldown: 2.75
   shootingRange: 8
   rangedAvoidanceRadius: 2
   unpredictableMovementRange: 1.5

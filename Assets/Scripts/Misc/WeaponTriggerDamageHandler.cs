@@ -236,7 +236,7 @@ public class WeaponTriggerDamageHandler : MonoBehaviour, IDisposable
             {
                 if (effectInstance != null)
                 {
-                    Destroy(effectInstance);
+                    Destroy(effectInstance);    
                 }
             }
             activeEffectInstances.Clear();

@@ -81,7 +81,8 @@ public class EnemySpawnManagerEditor : Editor
             {
                 enemyConfigsProperty.DeleteArrayElementAtIndex(i);
                 showEnemySettings.RemoveAt(i);
-                break;
+                // Return early to avoid processing the deleted element
+                return;
             }
             EditorGUILayout.EndHorizontal();
             if (showEnemySettings[i])
@@ -93,7 +94,6 @@ public class EnemySpawnManagerEditor : Editor
             }
         }
     }
-
 
     private void DrawEnemyConfigProperties(SerializedProperty enemyConfigProperty)
     {

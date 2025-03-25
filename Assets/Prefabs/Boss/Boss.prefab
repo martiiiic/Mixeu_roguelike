@@ -4903,7 +4903,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5028,7 +5028,7 @@ MonoBehaviour:
   invulnerableMaterial: {fileID: 2100000, guid: 5cced6c7764589842a77004a25e7a3ad, type: 2}
   ExitHand: {fileID: 428137386730932168, guid: 3c794e677ae153e4692dce62f957289a, type: 3}
   VoidPortal: {fileID: 8869825942989627784, guid: acb55310bd31d764cbd1f136ad9e7ae8, type: 3}
-  projectilePrefab: {fileID: 6594195936927640384, guid: 43b77a0261d738147b3c18cb020f197b, type: 3}
+  projectilePrefab: {fileID: 1850181624556607476, guid: 6c29a21f6740d9641bbe649d528f7a13, type: 3}
   laserWarningPrefab: {fileID: 4759520409009441804, guid: c867190c2fd8d1547a881cd857f75e0d, type: 3}
   laserBeamPrefab: {fileID: 8919575543661932661, guid: ae972b5e610ac1941b7a187e956fa5b2, type: 3}
   enemyPrefab: {fileID: 6665965059897597758, guid: 4c83176f743372d43bf55c52c1a813ae, type: 3}
@@ -5061,7 +5061,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

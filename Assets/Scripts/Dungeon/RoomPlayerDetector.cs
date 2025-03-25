@@ -25,7 +25,7 @@ public class RoomPlayerDetector : MonoBehaviour
     public float transitionduration = 0.2f;
 
     [Header("Room Visibility")]
-    public static float roomLoadRadius = 10f;
+    public static float roomLoadRadius = 20f;
 
     [Header("Trigger Offset")]
     [Tooltip("Enable to use custom offset for the player detection trigger")]
@@ -74,12 +74,15 @@ public class RoomPlayerDetector : MonoBehaviour
             roomZoomLevel = isLargeRoom ? dynamicCamera.largeRoomZoom : dynamicCamera.normalZoom;
         }
 
-        // Apply custom offset to trigger position if enabled
         ApplyTriggerOffset();
     }
 
+    private bool hasAppliedOffset = false;
+
     private void ApplyTriggerOffset()
     {
+        if (hasAppliedOffset) return;
+
         if (useCustomTriggerOffset)
         {
             transform.position = new Vector3(
@@ -90,27 +93,43 @@ public class RoomPlayerDetector : MonoBehaviour
         }
         else
         {
-            // Reset to original position if offset is disabled
             transform.position = originalTriggerPosition;
         }
+
+        hasAppliedOffset = true;
     }
 
     private void Update()
     {
-        if (player == null) { player = FindAnyObjectByType<PlayerState>(); if (player == null) return; }
-
-        if (currentActiveRoom == this && playerIsInRoom && mainCamera != null && !isTransitionLocked)
+        // Early exit if critical components are missing
+        if (player == null)
         {
+            player = FindAnyObjectByType<PlayerState>();
+            if (player == null) return;
+        }
+
+        if (mainCamera == null) return;
+        if (Room == null) return;
+
+        if (currentActiveRoom == this && playerIsInRoom && !isTransitionLocked)
+        {
+            // Null check for player transform
+            if (player.transform == null) return;
+
             Vector3 targetPosition = mainCamera.transform.position;
             if (RoomXfollow) targetPosition.x = player.transform.position.x;
             else if (RoomYfollow) targetPosition.y = player.transform.position.y;
             else targetPosition = new Vector3(Room.transform.position.x, Room.transform.position.y, -10);
             targetPosition.z = -10;
 
-            mainCamera.transform.position = Vector3.Lerp(
-                mainCamera.transform.position,
-                targetPosition,
-                Time.unscaledDeltaTime * cameraTransitionSpeed);
+            // Additional null check before Lerp
+            if (mainCamera.transform != null)
+            {
+                mainCamera.transform.position = Vector3.Lerp(
+                    mainCamera.transform.position,
+                    targetPosition,
+                    Time.unscaledDeltaTime * cameraTransitionSpeed);
+            }
         }
 
         CheckRoomVisibility();
